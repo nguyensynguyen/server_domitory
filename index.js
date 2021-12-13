@@ -8,12 +8,12 @@ var express = require('express');
      extended: true
  }));
 
-const controllers = require('./controller/users')
+const managerConroller = require('./controller/manager');
 
-app.get('/api/user',controllers.fillAllUser);
-app.get('/api/user/:userId',controllers.fillUserById);
-app.post('/api/user/create_user',controllers.createUser);
-app.post('/api/user/update_user',controllers.updateUser);
+app.get('/api/manager/user/:managerId',managerConroller.fillAllUser);
+// app.get('/api/user/:userId',controllers.fillUserById);
+// app.post('/api/user/create_user',controllers.createUser);
+// app.post('/api/user/update_user',controllers.updateUser);
 // app.get('/api', (req,res) => {
 // res.send(arr);
 // });
