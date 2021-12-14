@@ -1,6 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dao/connect_db');
 const Manager = require('./manager')
+const User = require('./users')
+const Message = require('./message')
+
 
 const Room = db.define('Room', {
     id:{
@@ -28,6 +31,10 @@ const Room = db.define('Room', {
   
 }, {
 });
+// Message.belongsTo(Room,{foreignKey:"room_id"})
+// Room.belongsTo(Message,{foreignKey:"room_id"})
+// Room.hasMany(User,{foreignKey:"room_id"})
+// User.belongsTo(Room,{foreignKey:"room_id"})
 // Room.belongsTo(Manager,{foreignKey:"manager_id"})
 // db.sync();
 module.exports = Room;

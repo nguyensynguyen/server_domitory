@@ -1,10 +1,12 @@
 const Manager = require('../model/manager');
 const User = require('../model/users');
-const Room = require('../model/room')
+const Room = require('../model/room');
+const Message = require('../model/message');
+
 
 exports.fillAllUser = (req,res,next) =>{
     const  managerId = req.params.managerId;
-    Manager.findAll({include:[{model:Room},{model:User}]}).then(listUser =>{
+    Message.findAll({include:[{model:Manager,include:{model:Room}}]}).then(listUser =>{
    res.status(200).json({
        "success":true,
        "data":listUser

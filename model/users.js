@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../dao/connect_db');
 const Manager = require('./manager');
 const Room = require('./room');
+const Message = require('./message')
 
 const Users = db.define('Users', {
     id:{
@@ -53,6 +54,7 @@ const Users = db.define('Users', {
 });
 // Users.belongsTo(Manager,{foreignKey:"manager_id"})
 // Users.belongsTo(Room,{foreignKey:"room_id"})
-
+Users.hasMany(Message,{foreignKey:"user_id"})
+Message.belongsTo(Users,{foreignKey:"user_id"})
 // db.sync();
 module.exports = Users;
