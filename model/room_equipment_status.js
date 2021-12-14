@@ -20,6 +20,6 @@ const Room_equipment_status = db.define('room_equipment_status', {
   
 }, {
 });
-Room_equipment_status.belongsTo(Room_equipment,{foreignKey:"room_equipment_id"})
+
 // db.sync();
 module.exports = Room_equipment_status;

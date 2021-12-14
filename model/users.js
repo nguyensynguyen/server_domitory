@@ -52,8 +52,8 @@ const Users = db.define('Users', {
   
 }, {
 });
-// Users.belongsTo(Manager,{foreignKey:"manager_id"})
-// Users.belongsTo(Room,{foreignKey:"room_id"})
+Users.belongsTo(Room,{foreignKey:"manager_id"})
+Room.hasMany(Users,{foreignKey:"room_id"})
 Users.hasMany(Message,{foreignKey:"user_id"})
 Message.belongsTo(Users,{foreignKey:"user_id"})
 // db.sync();

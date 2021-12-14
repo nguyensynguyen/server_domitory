@@ -24,5 +24,6 @@ const Room_bill = db.define('room_bill', {
 }, {
 });
 Room_bill.belongsTo(Room,{foreignKey:"room_id"})
+Room.hasMany(Room_bill,{foreignKey:"room_id"})
 // db.sync();
 module.exports = Room_bill;
