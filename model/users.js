@@ -56,5 +56,7 @@ Users.belongsTo(Room,{foreignKey:"manager_id"})
 Room.hasMany(Users,{foreignKey:"room_id"})
 Users.hasMany(Message,{foreignKey:"user_id"})
 Message.belongsTo(Users,{foreignKey:"user_id"})
+Message.belongsTo(Room,{foreignKey:"room_id"})
+Room.hasMany(Message,{foreignKey:"room_id"})
 // db.sync();
 module.exports = Users;

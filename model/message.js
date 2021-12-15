@@ -37,8 +37,8 @@ const Message = db.define('message', {
   
 }, {
 });
-// Message.belongsTo(Room,{foreignKey:"room_id"})
+
 // Message.belongsTo(Manager,{foreignKey:"manager_id"})
-// Message.belongsTo(Users,{foreignKey:"user_id"})
+
 // db.sync();
 module.exports = Message;

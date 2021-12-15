@@ -4,6 +4,8 @@ const Room = require('../model/room');
 const Message = require('../model/message');
 const RoomBillDetail = require('../model/room_bill_detail');
 const RoomBill = require('../model/room_bill');
+const RoomEquipment = require('../model/room_equipment');
+const RoomEquipmentStatus = require('../model/room_equipment_status');
 
 
 // exports.fillAllUser = (req,res,next) =>{
@@ -60,14 +62,41 @@ const RoomBill = require('../model/room_bill');
     //     }
 
     
-    exports.fillAllUser = (req,res,next) =>{
+    // exports.fillAllUser = (req,res,next) =>{
+    //     const  managerId = req.params.managerId;
+    //         Room.findAll({where: {
+    //             manager_id: managerId,
+    //           },include:[
+    //               {
+    //                   model:User,
+    //             },
+              
+    //             ]}).then(listUser =>{
+    //     res.status(200).json({
+    //         "success":true,
+    //         "data":listUser
+    //     },);
+    //         }).catch(err =>{
+    //             if(!err.statusCode){
+    //             err.statusCode = 500;
+    //             }
+    //             next(err);
+    //         });
+    //     }
+
+
+    exports.getAllRoom = (req,res,next) =>{
         const  managerId = req.params.managerId;
             Room.findAll({where: {
                 manager_id: managerId,
               },include:[
-                  {
-                      model:User,
+                   { 
+                      model:RoomBill,
+                      include:{model:RoomBillDetail}
                 },
+                {model:User},
+                {model:RoomEquipment,include:{model:RoomEquipmentStatus}}
+                // {model:}
               
                 ]}).then(listUser =>{
         res.status(200).json({
@@ -81,6 +110,77 @@ const RoomBill = require('../model/room_bill');
                 next(err);
             });
         }
+
+    // exports.getAllBill = (req,res,next) =>{
+    //     const  managerId = req.params.managerId;
+    //         RoomBill.findAll({where: {
+    //             manager_id: managerId,
+    //           },include:[
+
+    //                { model:Room},
+              
+              
+    //             ]}).then(listUser =>{
+    //     res.status(200).json({
+    //         "success":true,
+    //         "data":listUser
+    //     },);
+    //         }).catch(err =>{
+    //             if(!err.statusCode){
+    //             err.statusCode = 500;
+    //             }
+    //             next(err);
+    //         });
+    //     }
+
+        
+    exports.getAllMessage = (req,res,next) =>{
+        const  managerId = req.params.managerId;
+            Message.findAll({where: {
+                manager_id: managerId,
+              },include:[
+                   { 
+                      model:Room,
+                     
+                },
+                {model:User},
+              
+                ]}).then(listUser =>{
+        res.status(200).json({
+            "success":true,
+            "data":listUser
+        },);
+            }).catch(err =>{
+                if(!err.statusCode){
+                err.statusCode = 500;
+                }
+                next(err);
+            });
+        }
+
+        exports.getAllUser = (req,res,next) =>{
+            const  managerId = req.params.managerId;
+                User.findAll({where: {
+                    manager_id: managerId,
+                  },include:[
+                       { 
+                          model:Room,
+                    },                  
+                    ]}).then(listUser =>{
+            res.status(200).json({
+                "success":true,
+                "data":listUser
+            },);
+                }).catch(err =>{
+                    if(!err.statusCode){
+                    err.statusCode = 500;
+                    }
+                    next(err);
+                });
+            }
+    
+
+
 // exports.fillUserById = (req,res,next) =>{
 //   const  userId = req.params.userId;
 //     userModel.findByPk(userId).then(listUser =>{
@@ -95,6 +195,8 @@ const RoomBill = require('../model/room_bill');
 //         next(err);
 //     });
 // }
+
+
 
 // exports.createUser = (req,res,next) =>{
 //     // console.log(data.name);

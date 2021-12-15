@@ -22,6 +22,9 @@ const Room = db.define('Room', {
   max_people: {
     type: DataTypes.INTEGER
   },
+  room_amount: {
+    type: DataTypes.DOUBLE
+  },
   total_current_people: {
     type: DataTypes.INTEGER
   },
