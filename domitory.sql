@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2021 at 11:40 AM
+-- Generation Time: Dec 17, 2021 at 11:23 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -33,6 +33,7 @@ CREATE TABLE `managers` (
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phone` int(11) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -41,9 +42,9 @@ CREATE TABLE `managers` (
 -- Dumping data for table `managers`
 --
 
-INSERT INTO `managers` (`id`, `manager_name`, `email`, `address`, `phone`, `createdAt`, `updatedAt`) VALUES
-(1, 'manager_1', 'manager1@gmail.com', 'Hà nội', 2982174, '2021-12-13 09:01:38', '2021-12-13 09:01:38'),
-(2, 'manager_2', 'manager2@gmail.com', 'Bắc Giang', 334279531, '2021-12-13 09:01:38', '2021-12-13 09:01:38');
+INSERT INTO `managers` (`id`, `manager_name`, `email`, `address`, `phone`, `password`, `createdAt`, `updatedAt`) VALUES
+(1, 'manager_1', 'manager1@gmail.com', 'Hà nội', 2982174, '', '2021-12-13 09:01:38', '2021-12-13 09:01:38'),
+(2, 'manager_2', 'manager2@gmail.com', 'Bắc Giang', 334279531, '', '2021-12-13 09:01:38', '2021-12-13 09:01:38');
 
 -- --------------------------------------------------------
 
@@ -63,14 +64,6 @@ CREATE TABLE `messages` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `messages`
---
-
-INSERT INTO `messages` (`id`, `title`, `content`, `status`, `room_id`, `manager_id`, `user_id`, `createdAt`, `updatedAt`) VALUES
-(1, 'hỏng cửa', 'cửa bị hỏng ', 'not_fix', 1, 1, 1, '2021-12-13 09:12:15', '2021-12-13 09:12:15'),
-(2, 'điều hòa hỏng', 'điều hòa k chạy,tự tắt', 'fixing', 2, 1, 1, '2021-12-13 09:12:15', '2021-12-13 09:12:15');
-
 -- --------------------------------------------------------
 
 --
@@ -80,10 +73,10 @@ INSERT INTO `messages` (`id`, `title`, `content`, `status`, `room_id`, `manager_
 CREATE TABLE `rooms` (
   `id` int(11) NOT NULL,
   `room_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `max_people` int(11) DEFAULT NULL,
   `total_current_people` int(11) DEFAULT NULL,
   `manager_id` int(11) DEFAULT NULL,
+  `room_amount` double NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -92,9 +85,14 @@ CREATE TABLE `rooms` (
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `room_name`, `status`, `max_people`, `total_current_people`, `manager_id`, `createdAt`, `updatedAt`) VALUES
-(1, 'p001', 'missing', 6, 5, 1, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
-(2, 'p002', 'full', 8, 8, 1, '2021-12-13 09:04:22', '2021-12-13 09:04:22');
+INSERT INTO `rooms` (`id`, `room_name`, `max_people`, `total_current_people`, `manager_id`, `room_amount`, `createdAt`, `updatedAt`) VALUES
+(1, 'p001', 8, 5, 1, 0, '2021-12-13 09:04:22', '2021-12-17 07:55:51'),
+(2, 'p002', 8, 8, 1, 0, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
+(3, 'p003', 8, 0, 2, 0, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
+(4, 'p003', 5, 0, 1, 2000000, '2021-12-17 02:11:45', '2021-12-17 02:11:45'),
+(5, 'p004', 6, 6, 1, 1000000, '2021-12-17 02:16:18', '2021-12-17 02:16:18'),
+(6, 'p004', 6, 6, 2, 1000000, '2021-12-17 02:16:42', '2021-12-17 02:16:42'),
+(7, 'p004', 6, 6, 2, 1000000, '2021-12-17 07:25:47', '2021-12-17 07:25:47');
 
 -- --------------------------------------------------------
 
@@ -106,10 +104,27 @@ CREATE TABLE `room_bills` (
   `id` int(11) NOT NULL,
   `total_price` double NOT NULL,
   `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date_create` int(11) NOT NULL,
   `room_id` int(11) DEFAULT NULL,
+  `total_service` double NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `room_bills`
+--
+
+INSERT INTO `room_bills` (`id`, `total_price`, `status`, `date_create`, `room_id`, `total_service`, `createdAt`, `updatedAt`) VALUES
+(1, 200, 'unpaid', 1639553585, 1, 0, '2021-12-14 03:22:39', '2021-12-17 08:03:11'),
+(2, 100.2, 'no_paid', 1639553585, 2, 0, '2021-12-14 03:22:39', '2021-12-14 03:22:39'),
+(3, 100.22, 'paided', 1639553585, 3, 0, '2021-12-14 03:22:39', '2021-12-14 03:22:39'),
+(4, 200000, 'paid', 1639700, 1, 200000, '2021-12-17 02:52:27', '2021-12-17 02:52:27'),
+(5, 200000, 'paid', 1639702154, 1, 200000, '2021-12-17 02:53:32', '2021-12-17 02:53:32'),
+(6, 200000, 'paid', 1639707983, 1, 200000, '2021-12-17 02:55:05', '2021-12-17 02:55:05'),
+(7, 200000, 'paid', 2147483647, 1, 200000, '2021-12-17 03:00:57', '2021-12-17 03:00:57'),
+(8, 200000, 'paid', 2147483647, 1, 200000, '2021-12-17 03:01:15', '2021-12-17 03:01:15'),
+(9, 200000, 'paid', 2147483647, 1, 200000, '2021-12-17 03:02:08', '2021-12-17 03:02:08');
 
 -- --------------------------------------------------------
 
@@ -136,10 +151,19 @@ CREATE TABLE `room_bill_details` (
 CREATE TABLE `room_equipments` (
   `id` int(11) NOT NULL,
   `room_equipment_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `room_id` int(11) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `room_equipments`
+--
+
+INSERT INTO `room_equipments` (`id`, `room_equipment_name`, `status`, `room_id`, `createdAt`, `updatedAt`) VALUES
+(1, 'điều hòa', 'ok', 1, '2021-12-17 04:44:13', '2021-12-17 04:44:13'),
+(2, 'Nong lanh', 'ok', 1, '2021-12-17 04:44:13', '2021-12-17 04:44:13');
 
 -- --------------------------------------------------------
 
@@ -158,6 +182,31 @@ CREATE TABLE `room_equipment_statuses` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `services`
+--
+
+CREATE TABLE `services` (
+  `id` int(11) NOT NULL,
+  `service_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `unit_price` double NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`id`, `service_name`, `unit_price`, `room_id`, `createdAt`, `updatedAt`) VALUES
+(1, 'gửi xe', 20000, 1, '2021-12-16 03:00:06', '2021-12-16 03:00:06'),
+(2, 'điện', 4500, 1, '2021-12-16 03:00:06', '2021-12-16 03:00:06'),
+(3, 'nước', 30000, 1, '2021-12-16 03:00:40', '2021-12-16 03:00:40'),
+(4, 'dieu hoa', 1000000, 1, '2021-12-17 02:21:00', '2021-12-17 02:21:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -165,15 +214,15 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `user_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `birth_day` int(11) DEFAULT NULL,
-  `phone` int(11) DEFAULT NULL,
-  `id_card` int(11) DEFAULT NULL,
+  `birth_day` bigint(20) DEFAULT NULL,
+  `phone` bigint(20) DEFAULT NULL,
+  `id_card` bigint(20) DEFAULT NULL,
   `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `registration_date` int(11) DEFAULT NULL,
-  `expiration_date` int(11) DEFAULT NULL,
+  `registration_date` bigint(20) DEFAULT NULL,
+  `expiration_date` bigint(20) DEFAULT NULL,
   `manager_id` int(11) DEFAULT NULL,
   `room_id` int(11) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -182,11 +231,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `email`, `birth_day`, `phone`, `id_card`, `address`, `status`, `registration_date`, `expiration_date`, `manager_id`, `room_id`, `createdAt`, `updatedAt`) VALUES
-(1, 'user_1', 'user1@gmail.com', 1639382886, 2982174, 12283569, 'Hà nội', '', 1639382886, 1639382886, 1, 1, '2021-12-13 09:07:19', '2021-12-13 09:07:19'),
-(2, 'bigha', 'sdg@gmail.com', 1639382886, 1534345, 1223584, 'bg', '', 1639382886, 1639382886, 1, 2, '2021-12-13 10:02:06', '2021-12-13 10:02:06'),
-(3, 'dfhdxfh', 'trhtrh@nggg', 1639382886, 1639382886, 1639382886, 'fdhdf', '', 1639382886, 1639382886, 2, 1, '2021-12-13 10:02:06', '2021-12-13 10:02:06'),
-(4, 'dfhdxfh', 'fddffdfd@nggg', 1639382886, 1639382886, 1639382886, 'fdhdf', '', 1639382886, 1639382886, 2, 2, '2021-12-13 10:02:06', '2021-12-13 10:02:06');
+INSERT INTO `users` (`id`, `user_name`, `email`, `birth_day`, `phone`, `id_card`, `address`, `registration_date`, `expiration_date`, `manager_id`, `room_id`, `password`, `createdAt`, `updatedAt`) VALUES
+(2, 'bigha', 'sdg@gmail.com', 1639382886, 1534345, 1223584, 'bg', 1639382886, 1639382886, 1, 2, '', '2021-12-13 10:02:06', '2021-12-13 10:02:06'),
+(14, 'nguyens', 'nguyenns@gmail.com', 91386183, 1639707984443, 12236521, 'bac giang', 163970457983, 1639707983, 1, 1, '$2b$10$.9VFjO1QUTosRbGY6JUnw.5v63nyOpu/Vfz9s6ucu7tiA/7xMj1XG', '2021-12-17 09:03:49', '2021-12-17 09:03:49');
 
 --
 -- Indexes for dumped tables
@@ -243,6 +290,13 @@ ALTER TABLE `room_equipment_statuses`
   ADD KEY `room_equipment_id` (`room_equipment_id`);
 
 --
+-- Indexes for table `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `room_id` (`room_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -264,31 +318,31 @@ ALTER TABLE `managers`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `room_bills`
 --
 ALTER TABLE `room_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `room_bill_details`
 --
 ALTER TABLE `room_bill_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `room_equipments`
 --
 ALTER TABLE `room_equipments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `room_equipment_statuses`
@@ -297,10 +351,16 @@ ALTER TABLE `room_equipment_statuses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -343,6 +403,12 @@ ALTER TABLE `room_equipments`
 --
 ALTER TABLE `room_equipment_statuses`
   ADD CONSTRAINT `room_equipment_statuses_ibfk_1` FOREIGN KEY (`room_equipment_id`) REFERENCES `room_equipments` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `services`
+--
+ALTER TABLE `services`
+  ADD CONSTRAINT `services_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
