@@ -20,28 +20,29 @@ const Users = db.define('Users', {
     allowNull: false
   },
   birth_day: {
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   phone: {
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   id_card: {
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
 
   address: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  status: {
+  password: {
     type: DataTypes.STRING,
     allowNull: false
   },
+
   registration_date: {
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   expiration_date: {
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   manager_id: {
     type: DataTypes.INTEGER

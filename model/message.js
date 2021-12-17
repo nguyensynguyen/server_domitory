@@ -14,15 +14,12 @@ const Message = db.define('message', {
     },
   title: {
     type: DataTypes.STRING,
-    allowNull: false
   },
   content: {
     type: DataTypes.STRING,
-    allowNull: false
   },
   status: {
     type: DataTypes.STRING,
-    allowNull: false
   },
 
   room_id: {

@@ -6,8 +6,9 @@ const RoomBillDetail = require('../model/room_bill_detail');
 const RoomBill = require('../model/room_bill');
 const RoomEquipment = require('../model/room_equipment');
 const RoomEquipmentStatus = require('../model/room_equipment_status');
-
-
+const Service = require('../model/service');
+var check = false
+const bcrypt = require('bcrypt');
 // exports.fillAllUser = (req,res,next) =>{
 //     const  managerId = req.params.managerId;
 //     Message.findAll({include:[{model:Manager,include:{model:Room}}]}).then(listUser =>{
@@ -84,7 +85,34 @@ const RoomEquipmentStatus = require('../model/room_equipment_status');
     //         });
     //     }
 
+    exports.login = (req,res,next) =>{
+            User.findAll({where: {
+                email: req.body.email,
+                manager_id:req.body.manager_id,
+                // password:req.body.password
+              }}).then(listUser =>{
+                  console.log(listUser[0].dataValues.password)
+                  if(listUser.length > 0){
+                      if(bcrypt.compareSync(req.body.password, listUser[0].dataValues.password))
+                    res.status(200).json({
+                        "success":true,
+                        "data":listUser
+                    },);
+                  }else{
+                    res.status(200).json({
+                        "success":false,
+                        "data":listUser
+                    },);
+                  }
 
+            }).catch(err =>{
+                if(!err.statusCode){
+                err.statusCode = 500;
+                }
+                next(err);
+            });
+        }
+    
     exports.getAllRoom = (req,res,next) =>{
         const  managerId = req.params.managerId;
             Room.findAll({where: {
@@ -95,8 +123,8 @@ const RoomEquipmentStatus = require('../model/room_equipment_status');
                       include:{model:RoomBillDetail}
                 },
                 {model:User},
-                {model:RoomEquipment,include:{model:RoomEquipmentStatus}}
-                // {model:}
+                {model:RoomEquipment,include:{model:RoomEquipmentStatus}},
+                {model:Service}
               
                 ]}).then(listUser =>{
         res.status(200).json({
@@ -110,29 +138,6 @@ const RoomEquipmentStatus = require('../model/room_equipment_status');
                 next(err);
             });
         }
-
-    // exports.getAllBill = (req,res,next) =>{
-    //     const  managerId = req.params.managerId;
-    //         RoomBill.findAll({where: {
-    //             manager_id: managerId,
-    //           },include:[
-
-    //                { model:Room},
-              
-              
-    //             ]}).then(listUser =>{
-    //     res.status(200).json({
-    //         "success":true,
-    //         "data":listUser
-    //     },);
-    //         }).catch(err =>{
-    //             if(!err.statusCode){
-    //             err.statusCode = 500;
-    //             }
-    //             next(err);
-    //         });
-    //     }
-
         
     exports.getAllMessage = (req,res,next) =>{
         const  managerId = req.params.managerId;
@@ -178,7 +183,196 @@ const RoomEquipmentStatus = require('../model/room_equipment_status');
                     next(err);
                 });
             }
+
     
+exports.createRoom = (req,res,next) =>{
+    // console.log(data.name);
+    // const _id = req.body.id;
+    // const _firstName = req.body.firstName;
+    // const _lastName = req.body.lastName;
+    const _room = new Room(req.body);
+    _room.save().then(result => {
+        res.status(200).json({
+            "success":true,
+            "data":result
+        },);
+         }).catch(err =>{
+             if(!err.statusCode){
+                err.statusCode = 500;
+             }
+             next(err);
+         });
+    
+  }
+
+  exports.createService = (req,res,next) =>{
+    const _room = new Service(req.body);
+    _room.save().then(result => {
+        res.status(200).json({
+            "success":true,
+            "data":result
+        },);
+         }).catch(err =>{
+             if(!err.statusCode){
+                err.statusCode = 500;
+             }
+             next(err);
+         });
+    
+  }
+
+  exports.createUser = (req,res,next) =>{
+   var data =  { 
+    "user_name": req.body.user_name,
+    "email":req.body.email,
+    "birth_day": req.body.birth_day,
+    "phone":req.body.phone ,
+    "id_card": req.body.id_card,
+    "address": req.body.address,
+    "password": bcrypt.hashSync(req.body.password, 10),
+    "registration_date": req.body.registration_date,
+    "expiration_date": req.body.expiration_date,
+    "manager_id": req.body.manager_id,
+    "room_id":req.body.room_id ,
+    }
+    const _room = new User(data);
+    _room.save().then(result => {
+        res.status(200).json({
+            "success":true,
+            "data":result
+        },);
+         }).catch(err =>{
+             if(!err.statusCode){
+                err.statusCode = 500;
+             }
+             next(err);
+         });
+    
+  }
+
+  exports.createBill = (req,res,next) =>{
+    const _room = new RoomBill(req.body);
+    console.log(req.body);
+    _room.save().then(result => {
+        res.status(200).json({
+            "success":true,
+            "data":result
+        },);
+         }).catch(err =>{
+             if(!err.statusCode){
+                err.statusCode = 500;
+             }
+             next(err);
+         });
+  }
+  exports.createBillDetail = (req,res,next) =>{
+    req.body.forEach(item =>{
+        const _room = new RoomBillDetail(item);
+    _room.save()
+        
+    });
+    res.status(200).json({
+        "success":true,
+    },);
+
+  }
+
+  exports.createRoomEquipment = (req,res,next) =>{
+    req.body.forEach(item =>{
+        const _room = new RoomEquipment(item);
+    _room.save()
+    });
+    res.status(200).json({
+        "success":true,
+    },);
+  }
+
+
+
+  exports.updateMessage = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = Message.update(req.body,{where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"update success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+  }
+
+  exports.updateRoom = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = Room.update(req.body,{where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"update success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+  }
+
+  exports.updateBill = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = RoomBill.update(req.body,{where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"update success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+  }
+
+  exports.deleteUser = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = User.destroy({where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"delete success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+  }
+
+  exports.deleteMessage = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = Message.destroy({where:{user_id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"delete success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+  }
 
 
 // exports.fillUserById = (req,res,next) =>{

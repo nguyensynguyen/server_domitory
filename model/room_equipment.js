@@ -13,7 +13,10 @@ const Room_equipment = db.define('room_equipment', {
     type: DataTypes.STRING,
     allowNull: false
   },
-
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   room_id: {
     type: DataTypes.INTEGER
   },

@@ -16,9 +16,7 @@ const Room = db.define('Room', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  status: {
-    type: DataTypes.STRING
-  },
+
   max_people: {
     type: DataTypes.INTEGER
   },

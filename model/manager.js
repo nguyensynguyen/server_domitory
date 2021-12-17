@@ -19,6 +19,10 @@ const Manager = db.define('Manager', {
   email: {
     type: DataTypes.STRING
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   address: {
     type: DataTypes.STRING
   },
