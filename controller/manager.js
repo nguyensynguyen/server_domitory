@@ -155,10 +155,6 @@ const bcrypt = require('bcrypt');
             Room.findAll({where: {
                 manager_id: managerId,
               },include:[
-                   { 
-                      model:RoomBill,
-                      include:{model:RoomBillDetail}
-                },
                 {model:User},
                 {model:RoomEquipment,include:{model:RoomEquipmentStatus}},
                 {model:Service}
