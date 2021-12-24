@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2021 at 11:23 AM
+-- Generation Time: Dec 24, 2021 at 10:29 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -43,7 +43,7 @@ CREATE TABLE `managers` (
 --
 
 INSERT INTO `managers` (`id`, `manager_name`, `email`, `address`, `phone`, `password`, `createdAt`, `updatedAt`) VALUES
-(1, 'manager_1', 'manager1@gmail.com', 'Hà nội', 2982174, '', '2021-12-13 09:01:38', '2021-12-13 09:01:38'),
+(1, 'manager_1', 'm', 'Hà nội', 2982174, '$2b$10$grHnV3tjcgnfyhCjz4gR5OIJnkZddwXlVWbo/0e1s3Fwg4IeUSYGm', '2021-12-13 09:01:38', '2021-12-13 09:01:38'),
 (2, 'manager_2', 'manager2@gmail.com', 'Bắc Giang', 334279531, '', '2021-12-13 09:01:38', '2021-12-13 09:01:38');
 
 -- --------------------------------------------------------
@@ -86,13 +86,13 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `room_name`, `max_people`, `total_current_people`, `manager_id`, `room_amount`, `createdAt`, `updatedAt`) VALUES
-(1, 'p001', 8, 5, 1, 0, '2021-12-13 09:04:22', '2021-12-17 07:55:51'),
-(2, 'p002', 8, 8, 1, 0, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
-(3, 'p003', 8, 0, 2, 0, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
-(4, 'p003', 5, 0, 1, 2000000, '2021-12-17 02:11:45', '2021-12-17 02:11:45'),
-(5, 'p004', 6, 6, 1, 1000000, '2021-12-17 02:16:18', '2021-12-17 02:16:18'),
-(6, 'p004', 6, 6, 2, 1000000, '2021-12-17 02:16:42', '2021-12-17 02:16:42'),
-(7, 'p004', 6, 6, 2, 1000000, '2021-12-17 07:25:47', '2021-12-17 07:25:47');
+(1, 'p001', 8, 5, 1, 1, '2021-12-13 09:04:22', '2021-12-17 07:55:51'),
+(2, 'p002', 8, 8, 1, 1.2, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
+(3, 'p003', 8, 0, 2, 1.3, '2021-12-13 09:04:22', '2021-12-13 09:04:22'),
+(4, 'p003', 5, 0, 1, 2000000.2, '2021-12-17 02:11:45', '2021-12-17 02:11:45'),
+(5, 'p004', 6, 6, 1, 10.2, '2021-12-17 02:16:18', '2021-12-17 02:16:18'),
+(6, 'p004', 6, 6, 2, 1.2, '2021-12-17 02:16:42', '2021-12-17 02:16:42'),
+(7, 'p004', 6, 6, 2, 1000000.2, '2021-12-17 07:25:47', '2021-12-17 07:25:47');
 
 -- --------------------------------------------------------
 
@@ -106,6 +106,7 @@ CREATE TABLE `room_bills` (
   `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_create` int(11) NOT NULL,
   `room_id` int(11) DEFAULT NULL,
+  `manager_id` int(11) NOT NULL,
   `total_service` double NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
@@ -115,16 +116,9 @@ CREATE TABLE `room_bills` (
 -- Dumping data for table `room_bills`
 --
 
-INSERT INTO `room_bills` (`id`, `total_price`, `status`, `date_create`, `room_id`, `total_service`, `createdAt`, `updatedAt`) VALUES
-(1, 200, 'unpaid', 1639553585, 1, 0, '2021-12-14 03:22:39', '2021-12-17 08:03:11'),
-(2, 100.2, 'no_paid', 1639553585, 2, 0, '2021-12-14 03:22:39', '2021-12-14 03:22:39'),
-(3, 100.22, 'paided', 1639553585, 3, 0, '2021-12-14 03:22:39', '2021-12-14 03:22:39'),
-(4, 200000, 'paid', 1639700, 1, 200000, '2021-12-17 02:52:27', '2021-12-17 02:52:27'),
-(5, 200000, 'paid', 1639702154, 1, 200000, '2021-12-17 02:53:32', '2021-12-17 02:53:32'),
-(6, 200000, 'paid', 1639707983, 1, 200000, '2021-12-17 02:55:05', '2021-12-17 02:55:05'),
-(7, 200000, 'paid', 2147483647, 1, 200000, '2021-12-17 03:00:57', '2021-12-17 03:00:57'),
-(8, 200000, 'paid', 2147483647, 1, 200000, '2021-12-17 03:01:15', '2021-12-17 03:01:15'),
-(9, 200000, 'paid', 2147483647, 1, 200000, '2021-12-17 03:02:08', '2021-12-17 03:02:08');
+INSERT INTO `room_bills` (`id`, `total_price`, `status`, `date_create`, `room_id`, `manager_id`, `total_service`, `createdAt`, `updatedAt`) VALUES
+(13, 200000, 'paid', 2147483647, 1, 1, 200000, '2021-12-22 10:33:21', '2021-12-22 10:33:21'),
+(14, 200000, 'paid', 2147483647, 1, 1, 200000, '2021-12-22 10:43:09', '2021-12-22 10:43:09');
 
 -- --------------------------------------------------------
 
@@ -141,6 +135,16 @@ CREATE TABLE `room_bill_details` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `room_bill_details`
+--
+
+INSERT INTO `room_bill_details` (`id`, `service_name`, `amount_used`, `total_price`, `room_bill_id`, `createdAt`, `updatedAt`) VALUES
+(106, 'điệnss', 3, 198000, 13, '2021-12-22 10:33:21', '2021-12-22 10:33:21'),
+(107, 'điệnss', 800, 105800, 13, '2021-12-22 10:33:21', '2021-12-22 10:33:21'),
+(108, 'điệnss', 3, 198000, 14, '2021-12-22 10:43:09', '2021-12-22 10:43:09'),
+(109, 'điệnss', 800, 105800, 14, '2021-12-22 10:43:09', '2021-12-22 10:43:09');
 
 -- --------------------------------------------------------
 
@@ -201,8 +205,7 @@ CREATE TABLE `services` (
 INSERT INTO `services` (`id`, `service_name`, `unit_price`, `room_id`, `createdAt`, `updatedAt`) VALUES
 (1, 'gửi xe', 20000, 1, '2021-12-16 03:00:06', '2021-12-16 03:00:06'),
 (2, 'điện', 4500, 1, '2021-12-16 03:00:06', '2021-12-16 03:00:06'),
-(3, 'nước', 30000, 1, '2021-12-16 03:00:40', '2021-12-16 03:00:40'),
-(4, 'dieu hoa', 1000000, 1, '2021-12-17 02:21:00', '2021-12-17 02:21:00');
+(3, 'nước', 30000, 1, '2021-12-16 03:00:40', '2021-12-16 03:00:40');
 
 -- --------------------------------------------------------
 
@@ -233,7 +236,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `user_name`, `email`, `birth_day`, `phone`, `id_card`, `address`, `registration_date`, `expiration_date`, `manager_id`, `room_id`, `password`, `createdAt`, `updatedAt`) VALUES
 (2, 'bigha', 'sdg@gmail.com', 1639382886, 1534345, 1223584, 'bg', 1639382886, 1639382886, 1, 2, '', '2021-12-13 10:02:06', '2021-12-13 10:02:06'),
-(14, 'nguyens', 'nguyenns@gmail.com', 91386183, 1639707984443, 12236521, 'bac giang', 163970457983, 1639707983, 1, 1, '$2b$10$.9VFjO1QUTosRbGY6JUnw.5v63nyOpu/Vfz9s6ucu7tiA/7xMj1XG', '2021-12-17 09:03:49', '2021-12-17 09:03:49');
+(14, 'nguyens', 'nguyenns1@gmail.com', 91386183, 1639707984443, 12236521, 'bac giang', 163970457983, 1639707983, 1, 1, '$2b$10$.9VFjO1QUTosRbGY6JUnw.5v63nyOpu/Vfz9s6ucu7tiA/7xMj1XG', '2021-12-17 09:03:49', '2021-12-17 09:03:49'),
+(15, 'nguyens', 'n', 91386183, 1639707984443, 12236521, 'bac giang', 163970457983, 1639707983, 1, 1, '$2b$10$grHnV3tjcgnfyhCjz4gR5OIJnkZddwXlVWbo/0e1s3Fwg4IeUSYGm', '2021-12-20 07:59:06', '2021-12-20 07:59:06'),
+(16, 'nguyens', 'nguyenns@gmail.com', 91386183, 1639707984443, 12236521, 'bac giang', 163970457983, 1639707983, 1, 1, '$2b$10$GXqnacJ.ijA/p/UYkK3HguW4g3UWYOG4h6MWBjKPkLYMvwWZjp0i2', '2021-12-22 10:13:07', '2021-12-22 10:13:07');
 
 --
 -- Indexes for dumped tables
@@ -266,7 +271,8 @@ ALTER TABLE `rooms`
 --
 ALTER TABLE `room_bills`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `room_id` (`room_id`);
+  ADD KEY `room_id` (`room_id`),
+  ADD KEY `table1_id_refs` (`manager_id`);
 
 --
 -- Indexes for table `room_bill_details`
@@ -330,13 +336,13 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `room_bills`
 --
 ALTER TABLE `room_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `room_bill_details`
 --
 ALTER TABLE `room_bill_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `room_equipments`
@@ -360,7 +366,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
@@ -384,7 +390,8 @@ ALTER TABLE `rooms`
 -- Constraints for table `room_bills`
 --
 ALTER TABLE `room_bills`
-  ADD CONSTRAINT `room_bills_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `room_bills_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `table1_id_refs` FOREIGN KEY (`manager_id`) REFERENCES `managers` (`id`);
 
 --
 -- Constraints for table `room_bill_details`

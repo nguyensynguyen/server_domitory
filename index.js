@@ -11,12 +11,13 @@ app.use(bodyParser.urlencoded({
 const managerConroller = require('./controller/manager');
 
 app.get('/api/manager/get_all_room/:managerId', managerConroller.getAllRoom);
-// app.get('/api/manager/get_all_bill/:managerId', managerConroller.getAllBill);
+app.get('/api/manager/get_all_bill/:managerId', managerConroller.getAllBill);
 app.get('/api/manager/get_all_message/:managerId', managerConroller.getAllMessage);
 app.get('/api/manager/get_all_user/:managerId', managerConroller.getAllUser);
 
 
-app.post('/api/manager/login', managerConroller.login);
+app.post('/api/user/login_user', managerConroller.loginUser);
+app.post('/api/manager/login_manager', managerConroller.loginManager);
 
 
 app.post('/api/manager/create_room', managerConroller.createRoom);

@@ -85,7 +85,7 @@ const bcrypt = require('bcrypt');
     //         });
     //     }
 
-    exports.login = (req,res,next) =>{
+    exports.loginUser = (req,res,next) =>{
             User.findAll({where: {
                 email: req.body.email,
                 manager_id:req.body.manager_id,
@@ -93,26 +93,63 @@ const bcrypt = require('bcrypt');
               }}).then(listUser =>{
                   console.log(listUser[0].dataValues.password)
                   if(listUser.length > 0){
-                      if(bcrypt.compareSync(req.body.password, listUser[0].dataValues.password))
-                    res.status(200).json({
-                        "success":true,
-                        "data":listUser
-                    },);
+                          if(bcrypt.compareSync(req.body.password, listUser[0].dataValues.password)){
+                              res.status(200).json({
+                                  "success":true,
+                                  "data":listUser[0].dataValues
+                              },);
+                              return
+                          }
+                          res.status(200).json({
+                            "success":false,
+                            "data": null
+                        },);
                   }else{
                     res.status(200).json({
                         "success":false,
-                        "data":listUser
+                        "data":null
                     },);
                   }
 
             }).catch(err =>{
                 if(!err.statusCode){
-                err.statusCode = 500;
+                    err.statusCode = 500;
                 }
-                next(err);
+                next()
             });
         }
-    
+        exports.loginManager = (req,res,next) =>{
+            Manager.findAll({where: {
+                email: req.body.email,
+                // password:req.body.password
+              }}).then(listUser =>{
+                  console.log(listUser[0].dataValues.password)
+                  if(listUser.length > 0){
+                          if(bcrypt.compareSync(req.body.password, listUser[0].dataValues.password)){
+                              res.status(200).json({
+                                  "success":true,
+                                  "data":listUser[0].dataValues
+                              },);
+                              return
+                          }
+                          res.status(200).json({
+                            "success":false,
+                            "data": null
+                        },);
+                  }else{
+                    res.status(200).json({
+                        "success":false,
+                        "data":null
+                    },);
+                  }
+
+            }).catch(err =>{
+                if(!err.statusCode){
+                    err.statusCode = 500;
+                }
+                next()
+            });
+        }
     exports.getAllRoom = (req,res,next) =>{
         const  managerId = req.params.managerId;
             Room.findAll({where: {
@@ -139,16 +176,40 @@ const bcrypt = require('bcrypt');
             });
         }
         
-    exports.getAllMessage = (req,res,next) =>{
+
+        exports.getAllMessage = (req,res,next) =>{
+            const  managerId = req.params.managerId;
+                Message.findAll({where: {
+                    manager_id: managerId,
+                  },include:[
+                       { 
+                          model:Room,
+                         
+                    },
+                    {model:User},
+                  
+                    ]}).then(listUser =>{
+            res.status(200).json({
+                "success":true,
+                "data":listUser
+            },);
+                }).catch(err =>{
+                    if(!err.statusCode){
+                    err.statusCode = 500;
+                    }
+                    next(err);
+                });
+            }
+    
+    exports.getAllBill = (req,res,next) =>{
         const  managerId = req.params.managerId;
-            Message.findAll({where: {
+            RoomBill.findAll({where: {
                 manager_id: managerId,
               },include:[
                    { 
                       model:Room,
-                     
                 },
-                {model:User},
+                {model:RoomBillDetail},
               
                 ]}).then(listUser =>{
         res.status(200).json({
