@@ -13,6 +13,14 @@ const Room_bill_detail = db.define('room_bill_detail', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  number_start: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  number_end: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   amount_used: {
     type: DataTypes.DOUBLE,
     allowNull: false

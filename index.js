@@ -40,7 +40,7 @@ app.delete('/api/manager/delete_message/:id', managerConroller.deleteMessage);
 // });
 // app.post('/add',addDataUser);
 // chỉnh port
-app.listen(3000, '192.168.1.68', function () {
+app.listen(3000, '192.168.2.116', function () {
   console.log(process.env.PORT);
 });
 module.exports = app;

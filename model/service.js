@@ -13,8 +13,15 @@ const service = db.define('service', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  number_start: {
+    type: DataTypes.INTEGER
+  },
   unit_price: {
     type: DataTypes.DOUBLE,
+    allowNull: false
+  },
+  unit: {
+    type: DataTypes.STRING,
     allowNull: false
   },
   room_id: {

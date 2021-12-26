@@ -157,6 +157,7 @@ const bcrypt = require('bcrypt');
               },include:[
                 {model:User},
                 {model:RoomEquipment,include:{model:RoomEquipmentStatus}},
+                {model:RoomBill,include:{model:RoomBillDetail}},
                 {model:Service}
               
                 ]}).then(listUser =>{
