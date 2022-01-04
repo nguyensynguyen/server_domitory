@@ -264,18 +264,14 @@ exports.createRoom = (req,res,next) =>{
   }
 
   exports.createService = (req,res,next) =>{
-    const _room = new Service(req.body);
-    _room.save().then(result => {
-        res.status(200).json({
-            "success":true,
-            "data":result
-        },);
-         }).catch(err =>{
-             if(!err.statusCode){
-                err.statusCode = 500;
-             }
-             next(err);
-         });
+    req.body.forEach(item =>{
+        const _service = new Service(item);
+        _service.save()
+        
+    });
+    res.status(200).json({
+        "success":true,
+    },);
     
   }
 
