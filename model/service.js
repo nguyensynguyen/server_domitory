@@ -22,7 +22,6 @@ const service = db.define('service', {
   },
   unit: {
     type: DataTypes.STRING,
-    allowNull: false
   },
   room_id: {
     type: DataTypes.INTEGER

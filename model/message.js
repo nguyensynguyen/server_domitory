@@ -21,6 +21,9 @@ const Message = db.define('message', {
   status: {
     type: DataTypes.STRING,
   },
+  date_create: {
+    type: DataTypes.INTEGER
+  },
 
   room_id: {
     type: DataTypes.INTEGER

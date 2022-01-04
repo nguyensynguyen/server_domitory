@@ -364,6 +364,7 @@ exports.createRoom = (req,res,next) =>{
     });
   }
 
+
   exports.updateRoom = (req,res,next) =>{
     const  _id = req.params.id
    var rs = Room.update(req.body,{where:{id :_id}}).then(rs =>{
@@ -396,6 +397,42 @@ exports.createRoom = (req,res,next) =>{
         }
         next(err);
     });
+  }
+
+  exports.updateSevice = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = Service.update(req.body,{where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"update success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+    
+  }
+
+  exports.updateUser = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = User.update(req.body,{where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"update success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+    
   }
 
   exports.deleteUser = (req,res,next) =>{

@@ -26,6 +26,9 @@ const Room = db.define('Room', {
   total_current_people: {
     type: DataTypes.INTEGER
   },
+  date_create_bill: {
+    type: DataTypes.INTEGER
+  },
   manager_id: {
     type: DataTypes.INTEGER
   },
