@@ -305,9 +305,8 @@ exports.createRoom = (req,res,next) =>{
   }
 
   exports.createBill = (req,res,next) =>{
-    const _room = new RoomBill(req.body);
-    console.log(req.body);
-    _room.save().then(result => {
+    const _bill = new RoomBill(req.body);
+    _bill.save().then(result => {
         res.status(200).json({
             "success":true,
             "data":result
@@ -332,13 +331,18 @@ exports.createRoom = (req,res,next) =>{
   }
 
   exports.createRoomEquipment = (req,res,next) =>{
-    req.body.forEach(item =>{
-        const _room = new RoomEquipment(item);
-    _room.save()
-    });
-    res.status(200).json({
-        "success":true,
-    },);
+    const _equipment = new RoomEquipment(req.body);
+    _equipment.save().then(result => {
+        res.status(200).json({
+            "success":true,
+            "data":result
+        },);
+         }).catch(err =>{
+             if(!err.statusCode){
+                err.statusCode = 500;
+             }
+             next(err);
+         });
   }
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2022 at 03:22 AM
+-- Generation Time: Jan 05, 2022 at 11:26 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -70,7 +70,7 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `title`, `content`, `status`, `date_create`, `room_id`, `manager_id`, `user_id`, `createdAt`, `updatedAt`) VALUES
-(13, 'hỏng cửa', 'của bị gãy', 'fixed', 1640855511, 1, 1, 24, '2021-12-30 10:11:09', '2021-12-30 09:13:33');
+(13, 'hỏng cửa', 'của bị gãy', 'fixed', 1640855511, 1, 1, 24, '2021-12-30 10:11:09', '2022-01-05 03:45:34');
 
 -- --------------------------------------------------------
 
@@ -95,9 +95,10 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `room_name`, `max_people`, `total_current_people`, `manager_id`, `room_amount`, `date_create_bill`, `createdAt`, `updatedAt`) VALUES
-(1, 'p001', 8, 5, 1, 1500000, 1640767201, '2021-12-13 09:04:22', '2021-12-29 08:40:03'),
-(2, 'p002', 8, 8, 1, 500000, 1640855999, '2021-12-13 09:04:22', '2021-12-30 09:19:30'),
-(8, 'p003', 5, 0, 1, 1000000, 1635581358, '2021-12-13 09:04:22', '2021-12-28 08:10:44');
+(1, 'p001', 8, 5, 1, 1500000, 1641293754, '2021-12-13 09:04:22', '2022-01-04 10:55:55'),
+(63, 'p002', 5, 0, 1, 1000000, 1638767614, '2022-01-05 05:13:35', '2022-01-05 05:13:35'),
+(64, 'p003', 5, 0, 1, 1500000, 1638781631, '2022-01-05 09:07:13', '2022-01-05 09:07:13'),
+(65, 'p004', 6, 1, 1, 400000, 1638781779, '2022-01-05 09:09:41', '2022-01-05 09:09:41');
 
 -- --------------------------------------------------------
 
@@ -117,13 +118,6 @@ CREATE TABLE `room_bills` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `room_bills`
---
-
-INSERT INTO `room_bills` (`id`, `total_price`, `status`, `date_create`, `room_id`, `manager_id`, `total_service`, `createdAt`, `updatedAt`) VALUES
-(56, 607500, 'unpaid', 1640855999, 2, 1, 107500, '2021-12-30 09:19:30', '2021-12-30 09:19:30');
-
 -- --------------------------------------------------------
 
 --
@@ -142,15 +136,6 @@ CREATE TABLE `room_bill_details` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `room_bill_details`
---
-
-INSERT INTO `room_bill_details` (`id`, `service_name`, `number_start`, `number_end`, `amount_used`, `total_price`, `room_bill_id`, `createdAt`, `updatedAt`) VALUES
-(182, 'điện', 5, 10, 5, 22500, 56, '2021-12-30 09:19:30', '2021-12-30 09:19:30'),
-(183, 'gửi xe', 0, 0, 0, 15000, 56, '2021-12-30 09:19:30', '2021-12-30 09:19:30'),
-(184, 'Internet', 0, 0, 0, 70000, 56, '2021-12-30 09:19:30', '2021-12-30 09:19:30');
-
 -- --------------------------------------------------------
 
 --
@@ -165,6 +150,19 @@ CREATE TABLE `room_equipments` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `room_equipments`
+--
+
+INSERT INTO `room_equipments` (`id`, `room_equipment_name`, `status`, `room_id`, `createdAt`, `updatedAt`) VALUES
+(3, 'điều hòa', 'ok', 1, '2022-01-05 05:44:45', '2022-01-05 05:44:45'),
+(5, 'dieu hoa', 'ok', 63, '2022-01-05 07:22:27', '2022-01-05 07:22:27'),
+(6, 'nong lanh', 'ok', 1, '2022-01-05 09:30:59', '2022-01-05 09:30:59'),
+(7, 'máy giặt', 'ok', 1, '2022-01-05 09:55:52', '2022-01-05 09:55:52'),
+(8, 'nong lanh', 'hong', 65, '2022-01-05 10:10:21', '2022-01-05 10:10:21'),
+(9, 'may giat', 'ok', 65, '2022-01-05 10:12:13', '2022-01-05 10:12:13'),
+(10, 'diẹn', 'k', 63, '2022-01-05 10:13:03', '2022-01-05 10:13:03');
 
 -- --------------------------------------------------------
 
@@ -202,13 +200,15 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `service_name`, `number_start`, `unit_price`, `unit`, `room_id`, `createdAt`, `updatedAt`) VALUES
-(5, 'điện', 1, 4500, 'kw/h', 1, '2021-12-28 01:50:16', '2021-12-29 08:40:03'),
-(6, 'nước', 1, 20000, 'đ/m3', 1, '2021-12-28 01:50:16', '2021-12-29 08:40:03'),
-(7, 'điện', 10, 4500, 'kw/h', 2, '2021-12-28 01:50:16', '2021-12-30 09:19:30'),
-(8, 'gửi xe', 0, 15000, '', 2, '2021-12-28 01:50:16', '2021-12-30 09:19:30'),
-(9, 'Internet', 0, 70000, '', 2, '2021-12-28 01:50:16', '2021-12-30 09:19:30'),
-(10, 'Internet', 0, 70000, '', 8, '2021-12-28 01:50:16', '2021-12-28 08:10:44'),
-(11, 'điện', 1, 4500, 'kw/h', 8, '2021-12-28 01:50:16', '2021-12-29 08:40:03');
+(108, 'điện', 0, 4500, 'kw/h', 63, '2022-01-05 05:13:56', '2022-01-05 05:13:56'),
+(109, 'nước', 0, 20000, 'đ/m3', 63, '2022-01-05 05:13:56', '2022-01-05 05:13:56'),
+(110, 'Internet', 0, 90000, '', 63, '2022-01-05 05:13:56', '2022-01-05 05:13:56'),
+(111, 'điện', 0, 5000, 'kw/h', 64, '2022-01-05 09:07:31', '2022-01-05 09:07:31'),
+(112, 'nước', 0, 21000, 'đ/m3', 64, '2022-01-05 09:07:31', '2022-01-05 09:07:31'),
+(113, 'Internet', 0, 50000, '', 64, '2022-01-05 09:07:31', '2022-01-05 09:07:31'),
+(114, 'Vệ sinh', 0, 10000, '', 64, '2022-01-05 09:07:31', '2022-01-05 09:07:31'),
+(115, 'điện', 0, 1234, 'kw/h', 65, '2022-01-05 09:09:54', '2022-01-05 09:09:54'),
+(116, 'nước', 0, 30000, 'đ/m3', 65, '2022-01-05 09:09:54', '2022-01-05 09:09:54');
 
 -- --------------------------------------------------------
 
@@ -238,7 +238,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_name`, `email`, `birth_day`, `phone`, `id_card`, `address`, `registration_date`, `expiration_date`, `manager_id`, `room_id`, `password`, `createdAt`, `updatedAt`) VALUES
-(24, 'nguyenns', 'nguyenns@gmail.com', 91386183, 1639707984443, 12236521, 'bac giang', 1640853710, 1640855597, 1, 1, '$2b$10$fL7Zf0tyaspHTc4J2/opYustQmrXiuIBo95vXUknZnv6On5KgwYuK', '2021-12-30 08:42:08', '2021-12-30 09:12:50');
+(24, 'nguyenns', 'nguyenns@gmail.com', 91386183, 1639707984443, 12236521, 'bac giang', 1640853710, 1646413200, 1, 1, '$2b$10$fL7Zf0tyaspHTc4J2/opYustQmrXiuIBo95vXUknZnv6On5KgwYuK', '2021-12-30 08:42:08', '2022-01-05 03:30:28');
 
 --
 -- Indexes for dumped tables
@@ -330,25 +330,25 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `room_bills`
 --
 ALTER TABLE `room_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `room_bill_details`
 --
 ALTER TABLE `room_bill_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
 
 --
 -- AUTO_INCREMENT for table `room_equipments`
 --
 ALTER TABLE `room_equipments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `room_equipment_statuses`
@@ -360,7 +360,7 @@ ALTER TABLE `room_equipment_statuses`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `users`
