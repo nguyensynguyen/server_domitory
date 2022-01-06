@@ -26,6 +26,7 @@ app.post('/api/manager/create_user', managerConroller.createUser);
 app.post('/api/manager/create_bill', managerConroller.createBill);
 app.post('/api/manager/create_bill_detail', managerConroller.createBillDetail);
 app.post('/api/manager/create_room_equipment', managerConroller.createRoomEquipment);
+app.post('/api/manager/create_message', managerConroller.createMessage);
 
 app.post('/api/manager/update_message/:id', managerConroller.updateMessage);
 app.post('/api/manager/update_room/:id', managerConroller.updateRoom);
@@ -44,7 +45,7 @@ app.delete('/api/manager/delete_message/:id', managerConroller.deleteMessage);
 // });
 // app.post('/add',addDataUser);
 // chỉnh port
-app.listen(3000, '192.168.1.68', function () {
+app.listen(3000, '192.168.2.116', function () {
   console.log(process.env.PORT);
 });
 module.exports = app;

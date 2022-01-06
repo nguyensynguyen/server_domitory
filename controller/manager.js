@@ -469,6 +469,22 @@ exports.createRoom = (req,res,next) =>{
     });
   }
 
+  exports.createMessage = (req,res,next) =>{
+    const _equipment = new Message(req.body);
+    _equipment.save().then(result => {
+        res.status(200).json({
+            "success":true,
+            "data":result
+        },);
+         }).catch(err =>{
+             if(!err.statusCode){
+                err.statusCode = 500;
+             }
+             next(err);
+         });
+  }
+
+
 
 // exports.fillUserById = (req,res,next) =>{
 //   const  userId = req.params.userId;
