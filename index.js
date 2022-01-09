@@ -23,6 +23,7 @@ app.post('/api/manager/login_manager', managerConroller.loginManager);
 app.post('/api/manager/create_room', managerConroller.createRoom);
 app.post('/api/manager/create_service', managerConroller.createService);
 app.post('/api/manager/create_user', managerConroller.createUser);
+app.post('/api/manager/create_manager', managerConroller.createManager);
 app.post('/api/manager/create_bill', managerConroller.createBill);
 app.post('/api/manager/create_bill_detail', managerConroller.createBillDetail);
 app.post('/api/manager/create_room_equipment', managerConroller.createRoomEquipment);

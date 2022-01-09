@@ -88,7 +88,7 @@ const bcrypt = require('bcrypt');
     exports.loginUser = (req,res,next) =>{
             User.findAll({where: {
                 email: req.body.email,
-                manager_id:req.body.manager_id,
+                // manager_id:req.body.manager_id,
                 // password:req.body.password
               }}).then(listUser =>{
                   console.log(listUser[0].dataValues.password)
@@ -118,7 +118,7 @@ const bcrypt = require('bcrypt');
                 next()
             });
         }
-        exports.loginManager = (req,res,next) =>{
+    exports.loginManager = (req,res,next) =>{
             Manager.findAll({where: {
                 email: req.body.email,
                 // password:req.body.password
@@ -150,6 +150,7 @@ const bcrypt = require('bcrypt');
                 next()
             });
         }
+
     exports.getAllRoom = (req,res,next) =>{
         const  managerId = req.params.managerId;
             Room.findAll({where: {
@@ -181,7 +182,7 @@ const bcrypt = require('bcrypt');
                   },include:[
                        { 
                           model:Room,
-                         
+                        
                     },
                     {model:User},
                   
@@ -274,6 +275,30 @@ exports.createRoom = (req,res,next) =>{
     },);
     
   }
+
+  exports.createManager = (req,res,next) =>{
+    var data =  { 
+     "manager_name": req.body.manager_name,
+     "email":req.body.email,
+     "phone":req.body.phone ,
+     "address": req.body.address,
+     "password": bcrypt.hashSync(req.body.password, 10),
+     }
+     const _room = new Manager(data);
+     _room.save().then(result => {
+         res.status(200).json({
+             "success":true,
+             "data":result
+         },);
+          }).catch(err =>{
+              if(!err.statusCode){
+                 err.statusCode = 500;
+              }
+              next(err);
+          });
+     
+   }
+ 
 
   exports.createUser = (req,res,next) =>{
    var data =  { 
