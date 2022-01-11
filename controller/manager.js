@@ -9,6 +9,7 @@ const RoomEquipmentStatus = require('../model/room_equipment_status');
 const Service = require('../model/service');
 var check = false
 const bcrypt = require('bcrypt');
+const Room_equipment = require('../model/room_equipment');
 // exports.fillAllUser = (req,res,next) =>{
 //     const  managerId = req.params.managerId;
 //     Message.findAll({include:[{model:Manager,include:{model:Room}}]}).then(listUser =>{
@@ -410,6 +411,23 @@ exports.createRoom = (req,res,next) =>{
   exports.updateBill = (req,res,next) =>{
     const  _id = req.params.id
    var rs = RoomBill.update(req.body,{where:{id :_id}}).then(rs =>{
+        res.status(200).json(
+            {
+                "success": true,
+                "data":"update success"
+            }
+        );
+    }).catch(err =>{
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    });
+  }
+
+  exports.updateEquipment = (req,res,next) =>{
+    const  _id = req.params.id
+   var rs = Room_equipment.update(req.body,{where:{id :_id}}).then(rs =>{
         res.status(200).json(
             {
                 "success": true,
