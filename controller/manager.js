@@ -91,7 +91,10 @@ const Room_equipment = require('../model/room_equipment');
                 email: req.body.email,
                 // manager_id:req.body.manager_id,
                 // password:req.body.password
-              }}).then(listUser =>{
+              },include:[
+                { 
+                   model:Manager,
+             }],}).then(listUser =>{
                   console.log(listUser[0].dataValues.password)
                   if(listUser.length > 0){
                           if(bcrypt.compareSync(req.body.password, listUser[0].dataValues.password)){
@@ -99,6 +102,107 @@ const Room_equipment = require('../model/room_equipment');
                                   "success":true,
                                   "data":listUser[0].dataValues
                               },);
+                              return
+                          }
+                          res.status(200).json({
+                            "success":false,
+                            "data": null
+                        },);
+                  }else{
+                    res.status(200).json({
+                        "success":false,
+                        "data":null
+                    },);
+                  }
+
+            }).catch(err =>{
+                if(!err.statusCode){
+                    err.statusCode = 500;
+                }
+                next()
+            });
+        }
+    exports.changePassWordUser = (req,res,next) =>{
+            User.findAll({where: {
+                email: req.body.email,
+                // manager_id:req.body.manager_id,
+                // password:req.body.password
+              },include:[
+                { 
+                   model:Manager,
+             }],}).then(listUser =>{
+                  console.log(listUser[0].dataValues.password)
+                  if(listUser.length > 0){
+                          if(bcrypt.compareSync(req.body.old_password, listUser[0].dataValues.password)){
+    
+                              var data =  { 
+                                "password": bcrypt.hashSync(req.body.password, 10),
+                                }
+                              User.update(data,{where:{email :req.body.email}}).then(rs =>{
+                                res.status(200).json(
+                                    {
+                                        "success": true,
+                                        "data":"update success"
+                                    }
+                                );
+                            })
+                              return
+                          }
+                          res.status(200).json({
+                            "success":false,
+                            "data": null
+                        },);
+                  }else{
+                    res.status(200).json({
+                        "success":false,
+                        "data":null
+                    },);
+                  }
+
+            }).catch(err =>{
+                if(!err.statusCode){
+                    err.statusCode = 500;
+                }
+                next()
+            });
+        }
+    exports.updateProfileManager = (req,res,next) =>{
+            const  _id = req.params.managerId
+           var rs = Manager.update(req.body,{where:{id :_id}}).then(rs =>{
+                res.status(200).json(
+                    {
+                        "success": true,
+                        "data":"update success"
+                    }
+                );
+            }).catch(err =>{
+                if(!err.statusCode){
+                    err.statusCode = 500;
+                }
+                next(err);
+            });
+          }
+    exports.changePassWordManager = (req,res,next) =>{
+            Manager.findAll({where: {
+                email: req.body.email,
+                // manager_id:req.body.manager_id,
+                // password:req.body.password
+              },}).then(listUser =>{
+                  console.log(listUser[0].dataValues.password)
+                  if(listUser.length > 0){
+                          if(bcrypt.compareSync(req.body.old_password, listUser[0].dataValues.password)){
+    
+                              var data =  { 
+                                "password": bcrypt.hashSync(req.body.password, 10),
+                                }
+                              Manager.update(data,{where:{email :req.body.email}}).then(rs =>{
+                                res.status(200).json(
+                                    {
+                                        "success": true,
+                                        "data":"update success"
+                                    }
+                                );
+                            })
                               return
                           }
                           res.status(200).json({
