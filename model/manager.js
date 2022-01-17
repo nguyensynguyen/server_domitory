@@ -28,6 +28,10 @@ const Manager = db.define('Manager', {
   phone: {
     type: DataTypes.INTEGER
   },
+  device_token: {
+    type: DataTypes.STRING
+  },
+
 
 }, {
 });

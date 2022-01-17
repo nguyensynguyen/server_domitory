@@ -256,6 +256,25 @@ const Room_equipment = require('../model/room_equipment');
             });
         }
 
+        exports.getDataManager = (req,res,next) =>{
+            const  managerId = req.params.managerId;
+            Manager.findAll({where: {
+                id: managerId,
+                // password:req.body.password
+              }}).then(listUser =>{
+                res.status(200).json({
+                    "success":true,
+                    "data":listUser[0]
+                },);
+
+            }).catch(err =>{
+                if(!err.statusCode){
+                    err.statusCode = 500;
+                }
+                next()
+            });
+        }
+
     exports.getAllRoom = (req,res,next) =>{
         const  managerId = req.params.managerId;
             Room.findAll({where: {

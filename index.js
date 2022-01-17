@@ -14,6 +14,7 @@ app.get('/api/manager/get_all_room/:managerId', managerConroller.getAllRoom);
 app.get('/api/manager/get_all_bill/:managerId', managerConroller.getAllBill);
 app.get('/api/manager/get_all_message/:managerId', managerConroller.getAllMessage);
 app.get('/api/manager/get_all_user/:managerId', managerConroller.getAllUser);
+app.get('/api/manager/get_data_manager/:managerId', managerConroller.getDataManager);
 app.post('/api/manager/update_profile_manager/:managerId', managerConroller.updateProfileManager);
 
 
@@ -53,7 +54,7 @@ app.delete('/api/manager/delete_message/:id', managerConroller.deleteMessage);
 // });
 // app.post('/add',addDataUser);
 // chỉnh port
-app.listen(3000, '192.168.1.68', function () {
+app.listen(3000, '192.168.2.116', function () {
   console.log(process.env.PORT);
 });
 module.exports = app;
