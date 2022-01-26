@@ -16,6 +16,7 @@ app.get('/api/manager/get_all_message/:managerId', managerConroller.getAllMessag
 app.get('/api/manager/get_all_user/:managerId', managerConroller.getAllUser);
 app.get('/api/manager/get_data_manager/:managerId', managerConroller.getDataManager);
 app.post('/api/manager/update_profile_manager/:managerId', managerConroller.updateProfileManager);
+app.get('/api/manager/get_all_manager', managerConroller.getALlmanager);
 
 
 

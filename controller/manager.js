@@ -322,6 +322,21 @@ const Room_equipment = require('../model/room_equipment');
                     next(err);
                 });
             }
+
+            exports.getALlmanager = (req,res,next) =>{
+                const  managerId = req.params.managerId;
+                    Manager.findAll().then(listUser =>{
+                res.status(200).json({
+                    "success":true,
+                    "data":listUser
+                },);
+                    }).catch(err =>{
+                        if(!err.statusCode){
+                        err.statusCode = 500;
+                        }
+                        next(err);
+                    });
+                }
     
     exports.getAllBill = (req,res,next) =>{
         const  managerId = req.params.managerId;
