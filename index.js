@@ -55,7 +55,8 @@ app.delete('/api/manager/delete_message/:id', managerConroller.deleteMessage);
 // });
 // app.post('/add',addDataUser);
 // chỉnh port
-app.listen(3000, '192.168.2.116', function () {
+// '192.168.2.116'
+app.listen(3000, '192.168.42.214', function () {
   console.log(process.env.PORT);
 });
 module.exports = app;
